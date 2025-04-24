@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 
 export default function TeachAssistant() {
+  
+    //stores and tracks constant variables
   const [studyMaterial, setStudyMaterial] = useState('');
   const [explanation, setExplanation] = useState('');
   const [aiFeedback, setAiFeedback] = useState(null);
   const [step, setStep] = useState(1);
 
+  // function (button) to pull study material and set next page
   const handleStartTeaching = () => {
     if (studyMaterial.trim() !== '') {
       setStep(2);
     }
   };
 
+  // function (button) to pull user explanation and set next page to feedback
   const handleSubmitExplanation = () => {
     if (explanation.trim() !== '') {
       // Mock AI response
