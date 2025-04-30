@@ -16,15 +16,54 @@ export default function TeachAssistant() {
   };
 
   // function (button) to pull user explanation and set next page to feedback
-  const handleSubmitExplanation = () => {
+  const handleSubmitExplanation = async () => {
     if (explanation.trim() !== '') {
-      // Mock AI response
-      const feedback = {
-        summary: "✅ Great explanation! You clearly mentioned the key concept of energy production.",
-        followUp: "🤔 Follow-up question: Can you explain how ATP is produced in the mitochondria?"
-      };
-      setAiFeedback(feedback);
-      setStep(3);
+
+      try{
+        const prompt = 'Act as a tutor helping a student learn by letting the student teach the content.\n\nHere is the content the student is trying to learn: \n'+studyMaterial+'\n\nHere is their explanation of the content: \n'+explanation+'\n\nGive concise feedback:\n\n1. Say which parts of the content they understand well and which parts they need to improve their understanding of.\n2. 2. Ask follow up questions to point them towards concepts that they missed.'
+        
+/*
+Prompt:
+
+Act as a tutor helping a student learn by letting the student teach the content.
+
+Here is the content the student is trying to learn:
+[studyMaterial]
+
+Here is their explanation of the content:
+[explanation]
+
+Give concise feedback:
+
+1. Say which parts of the content they understand well and which parts they need to improve their understanding of
+2. Ask follow up questions to point them towards concepts that they missed
+*/
+
+        const response =  await fetch('http://127.0.0.1:5000/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({prompt}),
+        });
+
+        const data = await response.json();
+
+        setAiFeedback({
+          summary: data.response
+          // .split('\n')[0] || '',
+          // followUp: data.response.split('\n')[1] || '',
+        });
+
+        setStep(3);
+      } catch(error){
+        console.error('Error generating feedback:', error);
+        setAiFeedback({
+          summary: '❌ Error: Could not get feedback. Please try again later.',
+          followUp: '',
+        });
+        setStep(3);
+      }
     }
   };
 
