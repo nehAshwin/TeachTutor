@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Modal from './components/modal';
+import ReactMarkdown from 'react-markdown';
 
 export default function TeachAssistant() {
     //stores and tracks constant variables
@@ -130,7 +131,7 @@ export default function TeachAssistant() {
       {step === 3 && aiFeedback && (
         <div className="bg-white shadow-lg rounded-2xl p-6">
           <h2 className="text-xl font-semibold mb-2">🤖 AI Feedback</h2>
-          <p className="mb-2">{aiFeedback.summary}</p>
+          <ReactMarkdown>{aiFeedback.summary}</ReactMarkdown>
           <p>{aiFeedback.followUp}</p>
         </div>
       )}
