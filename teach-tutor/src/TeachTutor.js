@@ -36,24 +36,32 @@ export default function TeachAssistant() {
       return;
     }
 
-    try{
-      const prompt = 'Act as a tutor helping a student learn by letting the student teach the content.\n\nHere is the content the student is trying to learn: \n'+studyMaterial+'\n\nHere is their explanation of the content: \n'+explanation+'\n\nGive concise feedback:\n\n1. Say which parts of the content they understand well and which parts they need to improve their understanding of.\n2. 2. Ask follow up questions to point them towards concepts that they missed.'
+      try{
+        const prompt = 'Act as a student trying to learn from the user teaching. Right now, the user is using teaching as a method of studying, and you are the student they are teaching to.\n\nHere is the content the student is trying to learn: \n'+studyMaterial+'\n\nHere is their explanation of the content: \n'+explanation+'\n\nGive concise feedback:\n\n1. Compare the user\'s explanation to the given study material. Categorize the topics into concepts they understand well, concepts they might need to refresh, and concepts they missed\n2. Ask follow up questions test their understanding further based on concepts they missed from their study material.'
       
     /*
     Prompt:
 
-    Act as a tutor helping a student learn by letting the student teach the content.
+    Act as a student trying to learn from the user teaching. 
+    Right now, the user is using teaching as a method of 
+    studying, and you are the student they are teaching to.
 
+    Here is the content the student is trying to learn:
+    [studyMaterial]
     Here is the content the student is trying to learn:
     [studyMaterial]
 
     Here is their explanation of the content:
     [explanation]
+    Here is their explanation of the content:
+    [explanation]
 
     Give concise feedback:
+    Give concise feedback:
 
-    1. Say which parts of the content they understand well and which parts they need to improve their understanding of
-    2. Ask follow up questions to point them towards concepts that they missed
+    1. Compare the user's explanation to the given study material. Categorize the topics into 
+      concepts they understand well, concepts they might need to refresh, and concepts they missed
+    2. Ask follow up questions test their understanding further based on concepts they missed from their study material.
     */
 
       const response =  await fetch('http://127.0.0.1:5000/generate', {
