@@ -110,6 +110,23 @@ export default function TeachAssistant() {
 
   return (
     <div className="min-h-screen bg-[#E9EEF5] text-gray-900">
+      {/* Toolbar */}
+      <div className="w-full flex items-center justify-between px-6 py-3 bg-[#E9EEF5] fixed top-0 left-0 z-50">
+        <div className="flex items-center gap-3">
+          <div className="w-6 h-6 rounded-full bg-blue-600"></div>
+          <h3 className="text-lg font-semibold">Teach the Tutor</h3>
+        </div>
+        <div className="flex items-center gap-6">
+          <p className='cursor-pointer hover:underline'>About</p>
+          <p className='cursor-pointer hover:underline'>Product</p>
+          <button
+            onClick={() => setHasStarted(true)}
+            className="bg-[#054BB4] text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+          >
+            Start
+          </button>
+        </div>
+      </div>
       {!hasStarted ? (
         <div ref={refStart} className="h-screen flex flex-col md:flex-row items-center justify-center px-8">
           <div className="md:w-1/2 flex flex-col justify-center items-start max-w-md">
