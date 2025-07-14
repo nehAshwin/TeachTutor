@@ -1,28 +1,31 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import requests
 import ollama
-
-OLLAMA_API_URL = "http://localhost:11434/api/generate"
 
 app = Flask(__name__)
 CORS(app)
 
 @app.route('/generate', methods=['POST'])
 def generate_response():
-    prompt = request.json.get('prompt', '')
+    try:
+        prompt = request.json.get('prompt', '')
+        
+        if not prompt:
+            return jsonify({'error': 'No prompt provided'}), 400
 
-    response = requests.post(OLLAMA_API_URL, json={
-        "model": "gemma",
-        "prompt": prompt,
-        "stream": False
-    })
+        # Use the official Ollama client
+        response = ollama.generate(
+            model='gemma',
+            prompt=prompt,
+            stream=False
+        )
 
-    if response.status_code == 200:
-        content = response.json().get('response', '')
-        return jsonify({'response': content})
-    else:
-        return jsonify({'error': 'Failed to generate response'}), 500
+        return jsonify({'response': response['response']})
+        
+    except ollama.ResponseError as e:
+        return jsonify({'error': f'Ollama error: {str(e)}'}), 500
+    except Exception as e:
+        return jsonify({'error': f'Server error: {str(e)}'}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
